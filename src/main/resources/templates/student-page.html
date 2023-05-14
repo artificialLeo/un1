@@ -1,0 +1,36 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Student Page</title>
+
+</head>
+<body sec:authorize="hasRole('STUDENT')">
+<h1>Welcome, <span th:text="${username}"></span>!</h1>
+
+<h2>Your roles:</h2>
+<ul>
+    <li th:each="authority : ${authorities}" th:text="${authority.authority}"></li>
+    <form action="#" th:action="@{'/student-route/edit-user/' + ${userID}}" method="GET">
+        <button type="submit">Update Password</button>
+    </form>
+</ul>
+
+
+<a type="button" class="btn btn-primary" href="logout">Logout</a>
+
+<nav class="page" aria-label="Pages">
+    <ol class="page__list">
+        <li class="page__item" sec:authorize="hasAnyRole('ADMIN', 'TEACHER')"><a class="page__link" th:href="@{/student}">Students Page</a></li>
+        <li class="page__item" sec:authorize="hasAnyRole('ADMIN', 'STUDENT', 'TEACHER')"><a class="page__link" th:href="@{/subject}">Subjects Page</a></li>
+        <li class="page__item" sec:authorize="hasAnyRole('ADMIN', 'STUDENT')"><a class="page__link" th:href="@{/teacher}">Teachers Page</a></li>
+        <li class="page__item" sec:authorize="hasAnyRole('ADMIN', 'TEACHER')"><a class="page__link" th:href="@{/group}">Groups Page</a></li>
+        <li class="page__item" sec:authorize="hasAnyRole('ADMIN', 'STUDENT', 'TEACHER')"><a class="page__link" th:href="@{/timetable}">Timetables Page</a></li>
+    </ol>
+</nav>
+
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://java.sun.com/JSP/Page" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Page</title>
+</head>
+<body sec:authorize="hasRole('ADMIN')">
+
+<h1>Welcome, <span th:text="${username}"></span>!</h1>
+<a type="button" href="logout">Logout</a>
+
+<h2>Your roles:</h2>
+<ul>
+    <li th:each="authority : ${authorities}" th:text="${authority.authority}"></li>
+</ul>
+<div>
+    <div>
+        <div>
+            <table>
+                <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">User Name</th>
+                    <th scope="col">Roles</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="user: ${userList}">
+                    <td th:text="${user?.id}"></td>
+                    <td th:text="${user.email}"></td>
+                    <td th:text="${user.userName}"></td>
+                    <td th:text="${user?.roles}"></td>
+                    <td align='right'>
+                        <form action="#" th:action="@{'/admin-route/edit-user/' + ${user.id}}" method="GET">
+                            <button type="submit">Update User</button>
+                        </form>
+                    </td>
+                    <td align='right'>
+                        <form action="#" th:action="@{'/admin-route/delete-user/' + ${user.id}}" th:method="POST">
+                            <button type="submit">Delete User</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<nav class="page">
+    <ol class="page__list">
+        <li class="page__item" sec:authorize="hasAnyRole('ADMIN', 'TEACHER')"><a class="page__link" th:href="@{/student}">Students Page</a></li>
+        <li class="page__item" sec:authorize="hasAnyRole('ADMIN', 'STUDENT', 'TEACHER')"><a class="page__link" th:href="@{/subject}">Subjects Page</a></li>
+        <li class="page__item" sec:authorize="hasAnyRole('ADMIN', 'STUDENT')"><a class="page__link" th:href="@{/teacher}">Teachers Page</a></li>
+        <li class="page__item" sec:authorize="hasAnyRole('ADMIN', 'TEACHER')"><a class="page__link" th:href="@{/group}">Groups Page</a></li>
+        <li class="page__item" sec:authorize="hasAnyRole('ADMIN', 'STUDENT', 'TEACHER')"><a class="page__link" th:href="@{/timetable}">Timetables Page</a></li>
+    </ol>
+</nav>
+
+
+</body>
+</html>

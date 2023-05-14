@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Groups</title>
+</head>
+<body>
+<h1>Groups</h1>
+
+<p>
+    <a class="home__link" sec:authorize="hasAnyRole('ADMIN')" href="/admin-route">Return Home</a>
+    <a class="home__link" sec:authorize="hasAnyRole('STUDENT')" href="/student-route">Return Home</a>
+    <a class="home__link" sec:authorize="hasAnyRole('TEACHER')" href="/teacher-route">Return Home</a>
+</p>
+
+<label sec:authorize="hasAnyRole('ADMIN', 'STUDENT')" for="teacherSelect">Find group:</label>
+<select sec:authorize="hasAnyRole('ADMIN', 'STUDENT')" id="teacherSelect" onchange="updateTable(this.value)">
+    <option value="">-- Select Teacher --</option>
+    <option th:each="teacher : ${teachers}" th:value="${teacher.firstName + ' ' + teacher.lastName}"
+            th:text="${teacher.firstName + ' ' + teacher.lastName}">
+    </option>
+</select>
+
+
+<table id="groupTable">
+    <thead>
+    <tr>
+        <th>Group ID</th>
+        <th>Group Name</th>
+        <th>Teacher Name</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="group : ${groupList}">
+        <td th:text="${group.groupId}"></td>
+        <td th:text="${group.groupName}"></td>
+        <td th:text="${group.getTeacher().getFirstName() + ' ' + group.getTeacher().getLastName()}"></td>
+
+        <td sec:authorize="hasAnyRole('ADMIN')">
+            <form action="#" th:action="@{'/admin-route/edit-group/' + ${group.groupId}}" method="GET">
+                <button type="submit">Update Group</button>
+            </form>
+        </td>
+        <td sec:authorize="hasAnyRole('ADMIN')">
+            <form action="#" th:action="@{'/admin-route/delete-group/' + ${group.groupId}}" th:method="POST">
+                <button type="submit">Delete Group</button>
+            </form>
+        </td>
+
+    </tr>
+    </tbody>
+</table>
+
+<script th:inline="javascript">
+    function updateTable(selectedTeacherName) {
+        const table = document.getElementById("groupTable");
+        const rows = table.getElementsByTagName("tr");
+
+        for (let i = 1; i < rows.length; i++) {
+            const groupTeacherName = rows[i].getElementsByTagName("td")[2].textContent.trim();
+            rows[i].style.display = (groupTeacherName === selectedTeacherName || selectedTeacherName === "") ? "" : "none";
+        }
+    }
+</script>
+
+</body>
+</html>
