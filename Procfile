@@ -1,1 +1,1 @@
-web: java -Dserver.port=$PORT $JAVA_OPTS -jar target/university-deploy.jar
+web: java -Dserver.port=$PORT -jar /Users/khorkovenko/Desktop/university-deploy/target/university-deploy.jar
