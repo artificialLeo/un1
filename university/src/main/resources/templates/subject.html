@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Subjects</title>
+</head>
+<body>
+<h1>Subjects</h1>
+<p>
+    <a class="home__link" sec:authorize="hasAnyRole('ADMIN')" href="/admin-route">Return Home</a>
+    <a class="home__link" sec:authorize="hasAnyRole('STUDENT')" href="/student-route">Return Home</a>
+    <a class="home__link" sec:authorize="hasAnyRole('TEACHER')" href="/teacher-route">Return Home</a>
+</p>
+
+
+<table>
+    <thead>
+    <tr>
+        <th>Subject ID</th>
+        <th>Subject Name</th>
+        <th>Subject Manual</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="subject : ${subjectList}">
+        <td th:text="${subject.subjectId}"></td>
+        <td th:text="${subject.subjectName}"></td>
+        <td th:text="${subject.subjectManual}"></td>
+
+        <td sec:authorize="hasAnyRole('TEACHER')">
+            <form action="#" th:action="@{'/teacher-route/edit-subject/' + ${subject.subjectId}}" method="GET">
+                <button type="submit">Edit Subject</button>
+            </form>
+        </td>
+        <td sec:authorize="hasAnyRole('TEACHER')">
+            <form action="#"  th:action="@{'/teacher-route/delete-subject/' + ${subject.subjectId}}" th:method="POST">
+                <button type="submit">Delete Subject</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

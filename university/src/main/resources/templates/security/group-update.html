@@ -1,0 +1,36 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Edit Group</title>
+</head>
+<body>
+<h1 align="center">Update Group</h1>
+
+<form action="#" th:action="@{/admin-route/update-group}" method="POST">
+    <label for="groupId">Group ID:</label>
+    <input type="text" id="groupId" name="groupId" th:value="${group.getGroupId()}" readonly/><br><br>
+
+    <label for="groupName">Group Name:</label>
+    <input type="text" id="groupName" name="groupName" th:value="${group.getGroupName()}" /><br><br>
+
+    <label for="teacherName">Teacher Full Name:</label>
+    <input type="text" id="teacherName" name="teacherName" th:value="${teacher.getFirstName() + ' ' + teacher.getLastName()}" readonly/><br><br>
+
+    <label for="teacher">Teacher:</label>
+    <select id="teacher" name="teacher">
+        <option value="">Select a Teacher</option>
+        <option th:each="teacher : ${teacherList}" th:value="${teacher.teacherId}" th:text="${teacher.firstName + ' ' + teacher.lastName}"></option>
+    </select><br><br>
+
+    <button type="submit">Save</button>
+</form>
+
+<div class="mb-3">
+    <a type="button" class="btn btn-primary" href="/group">Cancel</a>
+</div>
+</body>
+</html>

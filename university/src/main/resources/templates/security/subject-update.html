@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Update Subject</title>
+</head>
+<body>
+<h1>Update Subject</h1>
+<form action="#" th:action="@{/teacher-route/update-subject}" th:object="${subject}" method="POST">
+  <label  for="subjectId">Subject ID:</label>
+    <input readonly id="subjectId" name="subjectId" th:value="${subject.subjectId}">
+
+
+  <label for="subjectName">Subject Name:</label>
+  <input type="text" id="subjectName" name="subjectName" th:value="${subject.subjectName}">
+
+  <label for="subjectManual">Subject Manual:</label>
+  <input type="text" id="subjectManual" name="subjectManual"  th:value="${subject.subjectManual}">
+
+  <input type="submit" value="Update">
+</form>
+</body>
+</html>
