@@ -59,12 +59,11 @@ public class AdminPageController {
     @RolesAllowed({"ADMIN"})
     @PostMapping("/update-timetable")
     public ModelAndView updateTimetable(@ModelAttribute("timetable") Timetable timetable, @RequestParam("subjects") List<Subject> subjects) {
-        List<Subject> allSubjects = subjectService.findAll();
-        allSubjects.addAll(subjects);
+        Timetable existingTimetable = timetableService.findById(timetable.getTimetableId()).orElseThrow();
+        existingTimetable.setSubjectList(subjects);
 
-        subjects.forEach(i -> i.setTimetable(timetable));
+        timetableService.save(existingTimetable);
 
-        subjectService.saveAll(allSubjects);
         return new ModelAndView("redirect:/timetable");
     }
 

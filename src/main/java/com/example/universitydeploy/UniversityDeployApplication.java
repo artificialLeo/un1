@@ -19,7 +19,6 @@ public class UniversityDeployApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         entityGenerator.prepareTestData();
-
     }
 
 }

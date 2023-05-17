@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Data
 @Table(name = "subject")
@@ -17,8 +20,7 @@ public class Subject {
     private String subjectName;
     private String subjectManual;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "timetable_id")
-    private Timetable timetable;
+    @ManyToMany(mappedBy = "subjectList")
+    private List<Timetable> timetables = new ArrayList<>();
 
 }

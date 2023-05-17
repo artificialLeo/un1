@@ -3,61 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <title>Admin Page</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>.table {border: none;}  .table thead th {border: none;} </style>
+
 </head>
 <body sec:authorize="hasRole('ADMIN')">
+<nav class="navbar navbar-expand-lg navbar-light bg-light" style="display:flex; justify-content: space-between">
+<ul class="navbar-nav">
+    <li class="nav-item" sec:authorize="hasAnyRole('ADMIN')">
+        <a class="nav-link" th:href="@{/admin-route}">
+            <img style="width: 25px; height: 25px;" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Eucalyp-Deus_University.png/1200px-Eucalyp-Deus_University.png?20200331181003" alt="logo">
+        </a>
+    </li>
+    <li class="nav-item" sec:authorize="hasAnyRole('TEACHER')">
+        <a class="nav-link" th:href="@{/teacher-route}">
+            <img style="width: 25px; height: 25px;" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Eucalyp-Deus_University.png/1200px-Eucalyp-Deus_University.png?20200331181003" alt="logo">
+        </a>
+    </li>
+    <li class="nav-item" sec:authorize="hasAnyRole('STUDENT')">
+        <a class="nav-link" th:href="@{/student-route}">
+            <img style="width: 25px; height: 25px;" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Eucalyp-Deus_University.png/1200px-Eucalyp-Deus_University.png?20200331181003" alt="logo">
+        </a>
+    </li>
 
-<h1>Welcome, <span th:text="${username}"></span>!</h1>
-<a type="button" href="logout">Logout</a>
 
-<h2>Your roles:</h2>
-<ul>
-    <li th:each="authority : ${authorities}" th:text="${authority.authority}"></li>
+    <li class="nav-item" sec:authorize="hasAnyRole('ADMIN', 'TEACHER')">
+        <a class="nav-link" th:href="@{/student}">Students Page</a>
+    </li>
+    <li class="nav-item" sec:authorize="hasAnyRole('ADMIN', 'STUDENT', 'TEACHER')">
+        <a class="nav-link" th:href="@{/subject}">Subjects Page</a>
+    </li>
+    <li class="nav-item" sec:authorize="hasAnyRole('ADMIN', 'STUDENT')">
+        <a class="nav-link" th:href="@{/teacher}">Teachers Page</a>
+    </li>
+    <li class="nav-item" sec:authorize="hasAnyRole('ADMIN', 'TEACHER')">
+        <a class="nav-link" th:href="@{/group}">Groups Page</a>
+    </li>
+    <li class="nav-item" sec:authorize="hasAnyRole('ADMIN', 'STUDENT', 'TEACHER')">
+        <a class="nav-link" th:href="@{/timetable}">Timetables Page</a>
+    </li>
 </ul>
-<div>
-    <div>
-        <div>
-            <table>
-                <thead>
-                <tr>
-                    <th scope="col">Id</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">User Name</th>
-                    <th scope="col">Roles</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="user: ${userList}">
-                    <td th:text="${user?.id}"></td>
-                    <td th:text="${user.email}"></td>
-                    <td th:text="${user.userName}"></td>
-                    <td th:text="${user?.roles}"></td>
-                    <td align='right'>
-                        <form action="#" th:action="@{'/admin-route/edit-user/' + ${user.id}}" method="GET">
-                            <button type="submit">Update User</button>
-                        </form>
-                    </td>
-                    <td align='right'>
-                        <form action="#" th:action="@{'/admin-route/delete-user/' + ${user.id}}" th:method="POST">
-                            <button type="submit">Delete User</button>
-                        </form>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
+
+<a type="button" href="logout" class="btn btn-primary">Logout</a>
+</nav>
+
+<div style="display:flex; justify-content: space-between">
+    <h1>Welcome, <span th:text="${username}"></span>!</h1>
+    <div style="display:flex; justify-content: center">
+        <h6>Your role:</h6>
+        <ul>
+            <li th:each="authority : ${authorities}" th:text="${authority.authority}"></li>
+        </ul>
     </div>
 </div>
 
-<nav class="page">
-    <ol class="page__list">
-        <li class="page__item" sec:authorize="hasAnyRole('ADMIN', 'TEACHER')"><a class="page__link" th:href="@{/student}">Students Page</a></li>
-        <li class="page__item" sec:authorize="hasAnyRole('ADMIN', 'STUDENT', 'TEACHER')"><a class="page__link" th:href="@{/subject}">Subjects Page</a></li>
-        <li class="page__item" sec:authorize="hasAnyRole('ADMIN', 'STUDENT')"><a class="page__link" th:href="@{/teacher}">Teachers Page</a></li>
-        <li class="page__item" sec:authorize="hasAnyRole('ADMIN', 'TEACHER')"><a class="page__link" th:href="@{/group}">Groups Page</a></li>
-        <li class="page__item" sec:authorize="hasAnyRole('ADMIN', 'STUDENT', 'TEACHER')"><a class="page__link" th:href="@{/timetable}">Timetables Page</a></li>
-    </ol>
-</nav>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Email</th>
+        <th scope="col">User Name</th>
+        <th scope="col">Roles</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user: ${userList}">
+        <td th:text="${user?.id}"></td>
+        <td th:text="${user.email}"></td>
+        <td th:text="${user.userName}"></td>
+        <td th:text="${user?.roles}"></td>
+        <td align='right'>
+            <form action="#" th:action="@{'/admin-route/edit-user/' + ${user.id}}" method="GET">
+                <button type="submit" class="btn btn-primary">Update User</button>
+            </form>
+        </td>
+        <td align='right'>
+            <form action="#" th:action="@{'/admin-route/delete-user/' + ${user.id}}" th:method="POST">
+                <button type="submit" class="btn btn-danger">Delete User</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
 
 
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

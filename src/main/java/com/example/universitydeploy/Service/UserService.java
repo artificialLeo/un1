@@ -11,7 +11,6 @@ import java.util.List;
 @Service
 public class UserService {
     private final UserRepository userRepository;
-
     public void createUser(Users user) {
         userRepository.save(user);
     }

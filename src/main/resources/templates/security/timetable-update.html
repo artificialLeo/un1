@@ -3,50 +3,51 @@
 <head>
   <meta charset="UTF-8">
   <title>Edit Timetable</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>.table {border: none;}  .table thead th {border: none;} </style>
 </head>
 <body>
-<h1>Edit Timetable</h1>
+<div class="container">
+  <h1>Edit Timetable</h1>
 
-<form action="#" th:action="@{/admin-route/update-timetable}" method="POST">
-  <input th:field="${timetable.timetableId}"> <br>
-<!--  <input type="hidden" th:field="${timetable.}">-->
-<!--  <div>-->
-<!--    <input th:each="subject : ${timetable.getSubjectList()}" th:value="${subject.getSubjectName()}" readonly/>-->
-<!--    <br>-->
-<!--  </div>-->
+  <form action="#" th:action="@{/admin-route/update-timetable}" method="POST">
+    <input th:field="${timetable.timetableId}"> <br>
 
-  <table>
-    <thead>
-    <tr>
-      <th>Subject ID</th>
-      <th>Subject Name</th>
-      <th>Subject Manual</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="subject : ${timetable.getSubjectList()}">
-      <td th:text="${subject.subjectId}"></td>
-      <td th:text="${subject.subjectName}"></td>
-      <td th:text="${subject.subjectManual}"></td>
-    </tr>
-    </tbody>
-  </table>
+    <div th:if="${#lists.size(timetable.getSubjectList()) > 0}">
+      <table class="table">
+        <thead>
+        <tr>
+          <th>Subject ID</th>
+          <th>Subject Name</th>
+          <th>Subject Manual</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="subject : ${timetable.getSubjectList()}">
+          <td th:text="${subject.subjectId}"></td>
+          <td th:text="${subject.subjectName}"></td>
+          <td th:text="${subject.subjectManual}"></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
 
-  <div>
-    <label for="subjects">Subject:</label>
-    <select name="subjects" id="subjects" multiple>
-      <option th:each="subject : ${subjectList}" th:value="${subject.getSubjectId()}" th:text="${subject.getSubjectName()}" ></option>
-    </select>
 
+    <div class="form-group">
+      <label for="subjects">Subject:</label>
+      <select name="subjects" id="subjects" multiple class="form-control">
+        <option th:each="subject : ${subjectList}" th:value="${subject.getSubjectId()}" th:text="${subject.getSubjectName()}"></option>
+      </select>
+    </div>
+
+    <input type="submit" value="Save" class="btn btn-primary">
+  </form>
+
+  <div class="mb-3" style="margin-top: 10px;">
+    <a type="button" class="btn btn-primary" href="/timetable">Cancel</a>
   </div>
-
-
-  <input type="submit" value="Save">
-</form>
-
-<div class="mb-3">
-  <a type="button" class="btn btn-primary" href="/admin-route">Cancel</a>
 </div>
-</div>
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

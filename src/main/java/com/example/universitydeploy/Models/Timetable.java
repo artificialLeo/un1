@@ -2,9 +2,8 @@ package com.example.universitydeploy.Models;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -20,8 +19,12 @@ public class Timetable {
     @JoinColumn(name = "university_group_id")
     private UniversityGroup universityGroup;
 
-    @OneToMany(mappedBy = "timetable")
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    private List<Subject> subjectList;
+    @ManyToMany
+    @JoinTable(
+            name = "group_subject",
+            joinColumns = @JoinColumn(name = "timetable_id"),
+            inverseJoinColumns = @JoinColumn(name = "subject_id")
+    )
+    private List<Subject> subjectList = new ArrayList<>();
 
 }

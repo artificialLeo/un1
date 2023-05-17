@@ -3,18 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <title>Groups</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>.table {border: none;}  .table thead th {border: none;} </style>
 </head>
 <body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light" style="display:flex; justify-content: space-between">
+    <ul class="navbar-nav">
+        <li class="nav-item" sec:authorize="hasAnyRole('ADMIN')">
+            <a class="nav-link" th:href="@{/admin-route}">
+                <img style="width: 25px; height: 25px;"
+                     src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Eucalyp-Deus_University.png/1200px-Eucalyp-Deus_University.png?20200331181003"
+                     alt="logo">
+            </a>
+        </li>
+        <li class="nav-item" sec:authorize="hasAnyRole('TEACHER')">
+            <a class="nav-link" th:href="@{/teacher-route}">
+                <img style="width: 25px; height: 25px;"
+                     src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Eucalyp-Deus_University.png/1200px-Eucalyp-Deus_University.png?20200331181003"
+                     alt="logo">
+            </a>
+        </li>
+        <li class="nav-item" sec:authorize="hasAnyRole('STUDENT')">
+            <a class="nav-link" th:href="@{/student-route}">
+                <img style="width: 25px; height: 25px;"
+                     src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Eucalyp-Deus_University.png/1200px-Eucalyp-Deus_University.png?20200331181003"
+                     alt="logo">
+            </a>
+        </li>
+
+
+        <li class="nav-item" sec:authorize="hasAnyRole('ADMIN', 'TEACHER')">
+            <a class="nav-link" th:href="@{/student}">Students Page</a>
+        </li>
+        <li class="nav-item" sec:authorize="hasAnyRole('ADMIN', 'STUDENT', 'TEACHER')">
+            <a class="nav-link" th:href="@{/subject}">Subjects Page</a>
+        </li>
+        <li class="nav-item" sec:authorize="hasAnyRole('ADMIN', 'STUDENT')">
+            <a class="nav-link" th:href="@{/teacher}">Teachers Page</a>
+        </li>
+        <li class="nav-item" sec:authorize="hasAnyRole('ADMIN', 'TEACHER')">
+            <a class="nav-link" th:href="@{/group}">Groups Page</a>
+        </li>
+        <li class="nav-item" sec:authorize="hasAnyRole('ADMIN', 'STUDENT', 'TEACHER')">
+            <a class="nav-link" th:href="@{/timetable}">Timetables Page</a>
+        </li>
+    </ul>
+
+    <a type="button" href="logout" class="btn btn-primary">Logout</a>
+</nav>
+
 <h1>Groups</h1>
 
-<p>
-    <a class="home__link" sec:authorize="hasAnyRole('ADMIN')" href="/admin-route">Return Home</a>
-    <a class="home__link" sec:authorize="hasAnyRole('STUDENT')" href="/student-route">Return Home</a>
-    <a class="home__link" sec:authorize="hasAnyRole('TEACHER')" href="/teacher-route">Return Home</a>
-</p>
-
 <label sec:authorize="hasAnyRole('ADMIN', 'STUDENT')" for="teacherSelect">Find group:</label>
-<select sec:authorize="hasAnyRole('ADMIN', 'STUDENT')" id="teacherSelect" onchange="updateTable(this.value)">
+<select sec:authorize="hasAnyRole('ADMIN', 'STUDENT')" id="teacherSelect" onchange="updateTable(this.value)"
+        class="form-control">
     <option value="">-- Select Teacher --</option>
     <option th:each="teacher : ${teachers}" th:value="${teacher.firstName + ' ' + teacher.lastName}"
             th:text="${teacher.firstName + ' ' + teacher.lastName}">
@@ -22,12 +64,13 @@
 </select>
 
 
-<table id="groupTable">
+<table id="groupTable" class="table">
     <thead>
     <tr>
         <th>Group ID</th>
         <th>Group Name</th>
         <th>Teacher Name</th>
+        <th sec:authorize="hasAnyRole('ADMIN')">Actions</th>
     </tr>
     </thead>
     <tbody>
@@ -38,19 +81,19 @@
 
         <td sec:authorize="hasAnyRole('ADMIN')">
             <form action="#" th:action="@{'/admin-route/edit-group/' + ${group.groupId}}" method="GET">
-                <button type="submit">Update Group</button>
+                <button type="submit" class="btn btn-primary">Update Group</button>
             </form>
         </td>
         <td sec:authorize="hasAnyRole('ADMIN')">
             <form action="#" th:action="@{'/admin-route/delete-group/' + ${group.groupId}}" th:method="POST">
-                <button type="submit">Delete Group</button>
+                <button type="submit" class="btn btn-danger">Delete Group</button>
             </form>
         </td>
-
     </tr>
     </tbody>
 </table>
 
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script th:inline="javascript">
     function updateTable(selectedTeacherName) {
         const table = document.getElementById("groupTable");

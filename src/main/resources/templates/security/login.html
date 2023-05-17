@@ -1,30 +1,77 @@
-
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
     <title>Please sign in</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <style>
+        .container-center {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+    </style>
 </head>
 <body>
-<div>
-    <form method="post" action="/login">
-        <h2>Please sign in</h2>
-        <p>
-            <label for="username">Username</label>
-            <input type="text" id="username" name="username" placeholder="Username" required autofocus>
-        </p>
-        <p>
-            <label for="password">Password</label>
-            <input type="password" id="password" name="password" placeholder="Password" required>
-        </p>
 
-        <button type="submit">Sign in</button>
+<nav class="navbar navbar-expand-lg navbar-light bg-light" sec:authorize="!isAuthenticated()">
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/login}">
+                <img style="width: 25px; height: 25px;" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Eucalyp-Deus_University.png/1200px-Eucalyp-Deus_University.png?20200331181003" alt="logo">
+            </a>
+        </li>
+        <li class="nav-item" sec:authorize="!isAuthenticated()">
+            <a class="nav-link" th:href="@{/login}">Login</a>
+        </li>
+        <li class="nav-item" sec:authorize="!isAuthenticated()">
+            <a class="nav-link" th:href="@{/register}">Register</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/student}">Students Page</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/subject}">Subjects Page</a>
+        </li>
+    </ul>
+</nav>
+
+<div class="container container-center" style="height: 40vh">
+    <form method="post" action="/login" class="mt-5">
+        <h2>Please sign in</h2>
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" class="form-control" placeholder="Username" required autofocus>
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
+        </div>
+
+        <div class="container mt-3">
+            <div class="d-flex justify-content-between">
+                <button type="submit" class="btn btn-primary">Sign in</button>
+                <a href="/register" role="button" class="btn btn-secondary" aria-pressed="true">Sign up</a>
+            </div>
+        </div>
+
+
     </form>
 </div>
-<div>
-    <a href="/register" role="button" aria-pressed="true">Sing up</a>
-</div>
-</body></html>
+
+<footer class="bg-light dk text-sm p-1 text-center fixed-bottom" sec:authorize="!isAuthenticated()">
+    <div class="container-fluid">
+        <div class="row">
+                <p>Project with Spring6, Thymeleaf, Bootstrap 4. Login/Password 1)admin@gmail.com/admin 2)teacher@gmail.com0/teacher 3)student@gmail.com/student. Need to wait before test data generated!</p>
+        </div>
+    </div>
+</footer>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

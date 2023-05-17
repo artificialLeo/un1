@@ -2,6 +2,7 @@ package com.example.universitydeploy.Service;
 
 import com.example.universitydeploy.Models.*;
 import com.github.javafaker.Faker;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +22,8 @@ public class EntityGenerator {
     private final GroupService groupService;
     private final TimetableService timetableService;
     private final UserService userService;
+
+    @Transactional
     public void prepareTestData() {
         List<Users> users = new ArrayList<>();
 
@@ -29,11 +32,6 @@ public class EntityGenerator {
         users.add(new Users("teacher@gmail.com", "teacher", "Teacher user", Roles.TEACHER));
 
         userService.saveAll(users);
-
-        Teacher teacher1 = new Teacher();
-        Users u1 = new Users();
-
-
 
         for (int i = 0; i < 5; i++) {
             Teacher teacher = new Teacher();
@@ -54,7 +52,7 @@ public class EntityGenerator {
             groupService.save(group);
         }
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 100; i++) {
             Student student = new Student();
             student.setFirstName(faker.name().firstName());
             student.setLastName(faker.name().lastName());
@@ -72,8 +70,13 @@ public class EntityGenerator {
             Subject subject = new Subject();
             subject.setSubjectManual(faker.job().field());
             subject.setSubjectName(faker.job().title());
-            subject.setTimetable(timetableService.findAll().get(randomNumberInRange(1, 4)));
+
+            Timetable timetable = timetableService.findAll().get(randomNumberInRange(1, 4));
+            subject.getTimetables().add(timetable);
+            timetable.getSubjectList().add(subject);
+
             subjectService.save(subject);
+            timetableService.save(timetable);
         }
 
         System.out.println("Data generated!");

@@ -2,33 +2,48 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <title>Reassign Student</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-<h1>Reassign Student</h1>
+<div class="container">
+  <h1>Reassign Student</h1>
 
-<form action="#" th:action="@{/admin-route/update-student}" th:object="${student}" method="POST">
-  <input th:field="*{studentId}" readonly/>
+  <form action="#" th:action="@{/admin-route/update-student}" th:object="${student}" method="POST">
+    <div class="form-group">
+      <label for="studentId">Student ID:</label>
+      <input type="text" id="studentId" th:field="*{studentId}" class="form-control" readonly>
+    </div>
 
-  <label for="name">Name:</label>
-  <input type="text" id="name" th:field="*{firstName}" readonly/>
+    <div class="form-group">
+      <label for="name">Name:</label>
+      <input type="text" id="name" th:field="*{firstName}" class="form-control" readonly>
+    </div>
 
-  <label for="surname">Surname:</label>
-  <input type="text" id="surname" th:field="*{lastName}" readonly/>
+    <div class="form-group">
+      <label for="surname">Surname:</label>
+      <input type="text" id="surname" th:field="*{lastName}" class="form-control" readonly>
+    </div>
 
-  <label for="groupName">Group Name:</label>
-  <input type="text" id="groupName" th:field="*{group.groupName}" readonly/>
+    <div class="form-group">
+      <label for="groupName">Group Name:</label>
+      <input type="text" id="groupName" th:field="*{group.groupName}" class="form-control" readonly>
+    </div>
 
+    <div class="form-group">
+      <label for="groups">Group:</label>
+      <select id="groups" name="groups" class="form-control">
+        <option th:each="group : ${groupList}" th:value="${group.groupId}" th:text="${group.groupName}" th:field="*{group.groupName}"></option>
+      </select>
+    </div>
 
-  <label for="groups">Group:</label>
-  <select id="groups" name="groups">
-    <option th:each="group : ${groupList}" th:value="${group.groupId}" th:text="${group.groupName}" th:field="*{group.groupName}"></option>
-  </select>
+    <input type="submit" value="Save" class="btn btn-primary">
+  </form>
 
-  <input type="submit" value="Save" />
-</form>
-
-<div class="mb-3">
-  <a type="button" class="btn btn-primary" href="/student">Cancel</a>
+  <div class="mb-3" style="margin-top: 10px;">
+    <a type="button" class="btn btn-primary" href="/student">Cancel</a>
+  </div>
 </div>
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

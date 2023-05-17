@@ -2,6 +2,8 @@ package com.example.universitydeploy.Models;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.List;
 
@@ -16,14 +18,17 @@ public class UniversityGroup {
 
     private String groupName;
 
-    @OneToMany(mappedBy = "group")
+    @OneToMany(mappedBy = "group", cascade=CascadeType.REMOVE)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Student> studentList;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.REMOVE)
     @JoinColumn(name = "teacher_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Teacher teacher;
 
-    @OneToMany(mappedBy = "universityGroup")
+    @OneToMany(mappedBy = "universityGroup", cascade=CascadeType.REMOVE)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Timetable> timetableList;
 
 }

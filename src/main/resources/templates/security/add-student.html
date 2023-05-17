@@ -3,25 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <title>Add Student</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-<h1>Add Student</h1>
+<div class="container">
+    <h1>Add Student</h1>
 
-<form action="#" th:action="@{/teacher-route/add-student}" th:object="${student}" method="POST">
+    <form action="#" th:action="@{/teacher-route/add-student}" th:object="${student}" method="POST">
 
-    <label for="firstName">First Name:</label>
-    <input type="text" id="firstName" th:field="*{firstName}">
+        <div class="form-group">
+            <label for="firstName">First Name:</label>
+            <input type="text" id="firstName" th:field="*{firstName}" class="form-control">
+        </div>
 
-    <label for="lastName">Last Name:</label>
-    <input type="text" id="lastName" th:field="*{lastName}">
+        <div class="form-group">
+            <label for="lastName">Last Name:</label>
+            <input type="text" id="lastName" th:field="*{lastName}" class="form-control">
+        </div>
 
-    <label for="groupId">University Group ID:</label>
-    <select id="groupId" th:field="*{group.groupId}">
-        <option th:each="groupId : ${groupIDs}" th:value="${groupId}" th:text="${groupId}"></option>
-    </select>
+        <div class="form-group">
+            <label for="groupId">University Group ID:</label>
+            <select id="groupId" th:field="*{group.groupId}" class="form-control">
+                <option th:each="groupId : ${groupIDs}" th:value="${groupId}" th:text="${groupId}"></option>
+            </select>
+        </div>
 
+        <button type="submit" class="btn btn-primary">Save</button>
+    </form>
 
-    <button type="submit">Save</button>
-</form>
+    <div class="mb-3" style="margin-top: 10px;">
+        <a type="button" class="btn btn-danger" href="/student">Cancel</a>
+    </div>
+</div>
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

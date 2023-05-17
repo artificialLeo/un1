@@ -6,6 +6,7 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Edit User</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
 <h1 align="center">Update User</h1>
@@ -14,19 +15,19 @@
     <div class="row">
         <div class="col">
             <form action="#" th:action="@{/admin-route/update-user}" method="POST">
-                <div class="mb-3">
+                <div class="form-group">
                     <label for="id">Id</label>
                     <input type="text" name="id" class="form-control" id="id" readonly th:value="${userId}">
                 </div>
-                <div class="mb-3">
+                <div class="form-group">
                     <label for="email">User Email</label>
                     <input type="text" name="email" class="form-control" id="email" th:value="${userEmail}">
                 </div>
-                <div class="mb-3">
+                <div class="form-group">
                     <label for="userName">User Name</label>
                     <input type="text" name="userName" class="form-control" id="userName" th:value="${userName}">
                 </div>
-                <div class="mb-3">
+                <div class="form-group">
                     <select class="form-control" id="roles" name="roles">
                         <option th:each="roles: ${rolesValues}"
                                 th:value="${roles}"
@@ -35,17 +36,18 @@
                         </option>
                     </select>
                 </div>
-                <div class="mb-3">
+                <div class="form-group">
                     <button type="submit" class="btn btn-primary">Update</button>
                 </div>
             </form>
 
         </div>
     </div>
-    <div class="mb-3">
+    <div class="form-group">
         <a type="button" class="btn btn-primary" href="/admin-route">Cancel</a>
     </div>
 </div>
 
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
